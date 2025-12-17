@@ -4,9 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Happy Birthday Hanine!</title>
+    
+    <!-- Scripts for UI and Logic -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <script>
+      // Shim to prevent crashes on GitHub Pages where process.env isn't predefined
+      window.process = { env: { API_KEY: "" } };
+      
       tailwind.config = {
         theme: {
           extend: {
@@ -53,8 +62,24 @@
         background-size: 400% 400%;
         animation: gradient-x 15s ease infinite;
         overflow-x: hidden;
+        margin: 0;
+        min-height: 100vh;
+      }
+      #loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff0f5;
+        z-index: 9999;
+        font-family: 'Pacifico', cursive;
+        color: #ff7eb3;
+        font-size: 2rem;
+        transition: opacity 0.5s ease;
       }
     </style>
+    
     <script type="importmap">
     {
       "imports": {
@@ -69,8 +94,28 @@
     </script>
   </head>
   <body>
+    <!-- Initial Loading State -->
+    <div id="loader">Preparing the surprise... ✨</div>
+    
     <div id="root"></div>
-    <!-- Load the main application entry point -->
-    <script type="module" src="./index.tsx"></script>
+
+    <!-- 
+      We use type="text/babel" and data-type="module" so Babel Standalone 
+      can compile the TSX file directly in the browser on GitHub Pages.
+    -->
+    <script type="text/babel" data-type="module" src="./index.tsx"></script>
+    
+    <script>
+      // Hide loader once React takes over
+      window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        if (loader) {
+          setTimeout(() => {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 500);
+          }, 1000);
+        }
+      });
+    </script>
   </body>
 </html>

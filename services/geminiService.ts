@@ -3,21 +3,24 @@ import { WishRequest } from "../types.ts";
 
 export const generateBirthdayWish = async (request: WishRequest): Promise<string> => {
   try {
-    if (!process.env.API_KEY) {
-        throw new Error("API Key not found");
+    // Robust check for process and API_KEY
+    const apiKey = (typeof process !== 'undefined' && process.env) ? process.env.API_KEY : null;
+
+    if (!apiKey) {
+        console.warn("API Key not found, using fallback message.");
+        return `To my dearest Hanine, you are my soulmate and my sister by heart. Having you in my life is the greatest adventure. Happy Birthday!`;
     }
 
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
 
-    // Specialized prompt for Hanine / Soulmate context
     const prompt = `
       Write a deeply emotional, poetic, and beautiful short birthday letter (approx 50-60 words).
       Target: My soulmate and best friend, ${request.name}.
       Tone: ${request.tone} (but always keep it loving and warm).
       Key Themes: Unbreakable bond, forever friendship, gratitude for her existence.
-      Specific likes to weave in metaphorically if possible: ${request.likes}.
+      Specific likes: ${request.likes}.
       
-      Do not start with "Here is a wish". Start directly with the letter. Use elegant language.
+      Start directly with the letter. Use elegant, high-end poetic language.
     `;
 
     const response = await ai.models.generateContent({
