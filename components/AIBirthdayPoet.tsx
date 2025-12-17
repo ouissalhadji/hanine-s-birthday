@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Wand2, Loader2, Send, Feather } from 'lucide-react';
-import { generateBirthdayWish } from '../services/geminiService';
-import { WishRequest } from '../types';
+import { Wand2, Loader2, Feather } from 'lucide-react';
+import { generateBirthdayWish } from '../services/geminiService.ts';
+import { WishRequest } from '../types.ts';
 
 const AIBirthdayPoet: React.FC = () => {
   const [name, setName] = useState('Hanine');
@@ -16,7 +16,6 @@ const AIBirthdayPoet: React.FC = () => {
     if (!name) return;
 
     setLoading(true);
-    // Use default likes if empty to ensure a good prompt
     const finalLikes = likes || "Friendship, Memories, Happiness, Love";
     const wish = await generateBirthdayWish({ name, likes: finalLikes, tone });
     setGeneratedWish(wish);

@@ -1,10 +1,14 @@
 import { GoogleGenAI } from "@google/genai";
-import { WishRequest } from "../types";
-
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+import { WishRequest } from "../types.ts";
 
 export const generateBirthdayWish = async (request: WishRequest): Promise<string> => {
   try {
+    if (!process.env.API_KEY) {
+        throw new Error("API Key not found");
+    }
+
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
     // Specialized prompt for Hanine / Soulmate context
     const prompt = `
       Write a deeply emotional, poetic, and beautiful short birthday letter (approx 50-60 words).
@@ -17,7 +21,7 @@ export const generateBirthdayWish = async (request: WishRequest): Promise<string
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: prompt,
     });
 

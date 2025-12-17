@@ -1,12 +1,12 @@
 import React from 'react';
-import Hero from './components/Hero';
-import ReasonsGallery from './components/ReasonsGallery';
-import AIBirthdayPoet from './components/AIBirthdayPoet';
-import VirtualGift from './components/VirtualGift';
-import Confetti from './components/Confetti';
-import FloatingHearts from './components/FloatingHearts';
-import BirthdayCake from './components/BirthdayCake';
-import CelebrationButton from './components/CelebrationButton';
+import Hero from './components/Hero.tsx';
+import ReasonsGallery from './components/ReasonsGallery.tsx';
+import AIBirthdayPoet from './components/AIBirthdayPoet.tsx';
+import VirtualGift from './components/VirtualGift.tsx';
+import Confetti from './components/Confetti.tsx';
+import FloatingHearts from './components/FloatingHearts.tsx';
+import BirthdayCake from './components/BirthdayCake.tsx';
+import CelebrationButton from './components/CelebrationButton.tsx';
 
 const App: React.FC = () => {
   return (
